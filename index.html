@@ -5,21 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
   </head>
   <body>
     <label for="select">Look Up Movie by...</label>
-    <select id="select" name="select" onchange=changeDropdownValue(this.value)>
+    <select
+      id="select"
+      name="select"
+      onchange="changeDropdownValue(this.value)"
+    >
       <option value="" disabled selected></option>
     </select>
+    <button id="nextPage">NextPage</button>
     <br />
     <br />
     <label for="myText">Input Here</label>
-    <input id="myText">
+    <input id="myText" />
     <button type="submit" id="mySubmit">submit</button>
     <!-- <select id="secondSelect" name="secondSelect">
       <option value="" disabled selected></option>
 
     </select> -->
+    <main></main>
+    <script src="script.js" defer>
+
+    </script>
   </body>
 </html>
