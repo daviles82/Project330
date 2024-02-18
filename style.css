@@ -1,8 +1,70 @@
-body {
-  margin: 0;
+:root {
+  /* CSS HEX */
+  --steel-blue: #4f7cacff;
+  --mint-green: #c0e0deff;
+  --gunmetal: #162521ff;
+  --outer-space: #3c474bff;
+  --ice-blue: #9eefe5ff;
+
 }
 
-img {
-  width: 50px;
-  height: auto;
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
+body{
+  background-color: var(--steel-blue);
+}
+
+/* The entire list */
+.movie-container{ 
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  margin-top: 100px;
+}
+
+/* Individual Cards */
+.individual-movie{
+  width: 325px;
+  background-color: var(--ice-blue);
+  border-radius: 20px;
+  box-shadow: 0px 2px 4px rgba(0,0,0, 0.3);
+  overflow: hidden;
+  transition: transform 0.9s ease;
+}
+.individual-movie:hover{
+  transform: translateY(-20px);
+}
+.individual-movie img{
+  width: 100%;
+  height: auto;
+  min-height: 325px;
+  max-height: 500px;
+  object-fit: cover;
+}
+.card-content{
+  padding: 10px;
+}
+.card-content h1{
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.card-content p {
+  font-size: 15px;
+  color: var(--gunmetal);
+  margin-bottom: 10px;
+}
+/* .card-button{
+  display: inline-block;
+  background-color: #3498db;
+  color: #fff;
+  text-decoration: none ;
+  border-radius: 5px;
+  padding: 8px 16px;
+} */
+
+
