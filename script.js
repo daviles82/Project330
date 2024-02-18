@@ -1,5 +1,5 @@
 "use strict";
-let main = document.querySelector("main");
+let movieContainer = document.querySelector(".movie-container");
 let nextPage = "";
 let inputArea;
 function executeAPI(value) {
@@ -30,7 +30,7 @@ function executeAPI(value) {
 
 const menuOptions = [
   // {text:"Seasons",link:"seasons/{seriesId}",},
-  // {text:"ID",link:"{id}",},
+  // {text:"ID",link:"/titles/bog",},
   // {text:"Random",link:"random",},
   { text: "Titles", link: "/titles" },
   // {text:"ID",link:"{id}/aka",},
@@ -41,9 +41,9 @@ const menuOptions = [
   { text: "Upcoming", link: "/titles/x/upcoming" },
   // {text:"Series",link:"series/{seriesId}",},
   // {text:"Search",link:"INPUT",},
-  { text: "Search by also known as", link: "/titles/search/akas/bog" },
-  { text: "Search by Keyword", link: "/titles/search/keyword/bog" },
-  { text: "Search by Title", link: `/titles/search/title/bog` },
+  { text: "Searching also known as", link: "/titles/search/akas/bog" },
+  { text: "Searching Keyword", link: "/titles/search/keyword/bog" },
+  { text: "Searching Title", link: `/titles/search/title/bog` },
 ];
 // console.log(menuOptions);
 
@@ -57,7 +57,7 @@ for (const { text, link } of menuOptions) {
 
 function runPage(result) {
   console.log(result);
-  document.querySelector("main").innerHTML = "";
+  document.querySelector(".movie-container").innerHTML = "";
   let htmlString = "";
   for (let oneMovie of result.results) {
     htmlString += `${movieTemplate(oneMovie)}`;
@@ -70,16 +70,16 @@ function runPage(result) {
 
     newElement.addEventListener("click", async function () {
       htmlString = "";
-      document.querySelector("main").innerHTML = "";
+      document.querySelector(".movie-container").innerHTML = "";
       await executeAPI(result.next);
     });
   }
-  main.innerHTML = htmlString;
+  movieContainer.innerHTML = htmlString;
 }
 
 function changeDropdownValue(value) {
   let [temp2, temp3] = value.split(",");
-  document.querySelector("main").innerHTML = "";
+  document.querySelector(".movie-container").innerHTML = "";
   if (
     temp2 === "Random" ||
     temp2 === "Upcoming" ||
@@ -101,24 +101,29 @@ function movieTemplate(movie) {
   let movieImage = movie?.primaryImage?.url
     ? movie.primaryImage.url
     : "images/no-image.png";
-  let newMovie = `<li class='individual-movie'>
-  <a href='#' class='movie__image'>
-    <img
-      src='${movieImage}'
-      alt='${movie.originalTitleText.text}'
-    />
-  </a>
-  <a href='#'>
-    <h2 class='card__name'>${movie.originalTitleText.text}</h2>
-  </a>
-  <p class='movie__year'>${movie.releaseYear.year}</p>
-  </li>`;
+  let yearReleased = movie?.releaseDate?.year ? movie.releaseDate.year : `Release date unknown`;
+  let dayReleased = movie?.releaseDate?.day ? movie.releaseDate.day : ``;
+  let monthReleased = movie?.releaseDate?.month ? movie.releaseDate.month : ``;
+
+
+  let newMovie = 
+  `<div class='individual-movie'>
+    <img src='${movieImage}' alt='${movie.originalTitleText.text}'/>
+    <div class="card-content">
+      <h1>${movie.originalTitleText.text}</h1>
+      <p class='movie__year'>${monthReleased}/${dayReleased}/${yearReleased}</p>
+
+    </div>
+  </div>`;
+
+  // <a href="" class="card-button">More Info</a>
 
   return newMovie;
 }
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("select").addEventListener("change", function () {
-    document.querySelector("main").innerHTML = "";
+    document.querySelector(".movie-container").innerHTML = "";
   });
 });
+
