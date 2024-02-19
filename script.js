@@ -5,6 +5,12 @@ let inputArea;
 function executeAPI(value) {
   return new Promise((resolve, reject) => {
     const url = `https://moviesdatabase.p.rapidapi.com${value}`;
+
+    let data = localStorage.getItem(url);
+    if (data) {
+      resolve(JSON.parse(data));
+      return;
+    }
     const options = {
       method: "GET",
       headers: {
@@ -18,6 +24,7 @@ function executeAPI(value) {
         const response = await fetch(url, options);
         var result = await response.json();
         result.page = Number(result.page);
+        localStorage.setItem(url, JSON.stringify(result));
         runPage(result);
       } catch (error) {
         reject();
@@ -45,7 +52,6 @@ const menuOptions = [
   { text: "Searching Keyword", link: "/titles/search/keyword/bog" },
   { text: "Searching Title", link: `/titles/search/title/bog` },
 ];
-// console.log(menuOptions);
 
 const menu = document.getElementById("select");
 let listMenu = [];
@@ -56,7 +62,7 @@ for (const { text, link } of menuOptions) {
 }
 
 function runPage(result) {
-  console.log(result);
+  // console.log(result);
   document.querySelector(".movie-container").innerHTML = "";
   let htmlString = "";
   for (let oneMovie of result.results) {
@@ -90,7 +96,7 @@ function changeDropdownValue(value) {
   } else {
     [temp2, temp3] = value.split(",");
     document.getElementById("mySubmit").onclick = function () {
-      inputArea = document.getElementById("myText").value;
+      inputArea = document.getElementById("myText").value; 
       let formated = temp3.replace(/bog/g, inputArea);
       executeAPI(formated);
     };
@@ -116,8 +122,6 @@ function movieTemplate(movie) {
     </div>
   </div>`;
 
-  // <a href="" class="card-button">More Info</a>
-
   return newMovie;
 }
 
@@ -126,4 +130,3 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector(".movie-container").innerHTML = "";
   });
 });
-
